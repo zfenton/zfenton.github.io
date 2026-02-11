@@ -1,0 +1,15 @@
+{
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  },
+  "name": "anniApp",
+  "version": "0.0.1",
+  "homepage": "https://zfenton.github.io",
+  "private": "false",
+  "scripts": {
+	  "predeploy": "npm run build",
+	  "deploy": "gh-pages -d build",
+	  "start": "react-scripts start",
+	  "build": "react-scripts build"
+	  }
+}
