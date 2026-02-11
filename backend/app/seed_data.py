@@ -1,114 +1,153 @@
-# import sys
-# import os
-# sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from sqlalchemy.orm import Session
 from .database import SessionLocal, engine
 from .models import Base, Activity, ActivityOption, AppConfig
 
+# Edit this list freely between deploys — the sync will add, update,
+# and remove activities/options in the DB to match what is defined here.
+ACTIVITIES_DATA = [
+    {
+        "order": 1,
+        "question": "Where should we go for our anniversary celebration?",
+        "options": [
+            {"order": 1, "option_text": "Beach Town"},
+            {"order": 2, "option_text": "Redwood Hike"},
+        ]
+    },
+    {
+        "order": 2,
+        "question": "What type of dining experience should they enjoy?",
+        "options": [
+            {"order": 1, "option_text": "Fine dining at a Michelin-star restaurant"},
+            {"order": 2, "option_text": "Private chef cooking class"},
+            {"order": 3, "option_text": "Romantic picnic under the stars"},
+            {"order": 4, "option_text": "Food tour of local cuisine"}
+        ]
+    },
+    {
+        "order": 3,
+        "question": "What activity should be part of their celebration?",
+        "options": [
+            {"order": 1, "option_text": "Couples massage and spa day"},
+            {"order": 2, "option_text": "Hot air balloon ride"},
+            {"order": 3, "option_text": "Wine tasting tour"},
+            {"order": 4, "option_text": "Dance lessons"}
+        ]
+    },
+    {
+        "order": 4,
+        "question": "What entertainment would make the day special?",
+        "options": [
+            {"order": 1, "option_text": "Live music concert or show"},
+            {"order": 2, "option_text": "Private movie screening"},
+            {"order": 3, "option_text": "Comedy club night"},
+            {"order": 4, "option_text": "Sunset cruise"}
+        ]
+    },
+    {
+        "order": 5,
+        "question": "What keepsake should they create together?",
+        "options": [
+            {"order": 1, "option_text": "Professional photo shoot"},
+            {"order": 2, "option_text": "Pottery or art class creation"},
+            {"order": 3, "option_text": "Custom jewelry making"},
+            {"order": 4, "option_text": "Plant a tree together"}
+        ]
+    },
+    {
+        "order": 6,
+        "question": "How should they end the perfect anniversary day?",
+        "options": [
+            {"order": 1, "option_text": "Stargazing with champagne"},
+            {"order": 2, "option_text": "Bonfire on the beach"},
+            {"order": 3, "option_text": "Rooftop dinner at sunset"},
+            {"order": 4, "option_text": "Couples' dance under the stars"}
+        ]
+    }
+]
 
-def seed_database():
+
+def sync_database():
+    """
+    Syncs the database with ACTIVITIES_DATA on every startup.
+    - Creates tables if they don't exist.
+    - Adds new activities/options defined in code but missing from DB.
+    - Updates question text and option text if they've changed.
+    - Removes activities/options that are no longer defined in code.
+    - Ensures an AppConfig row exists.
+    """
     Base.metadata.create_all(bind=engine)
-    db = SessionLocal()
+    db: Session = SessionLocal()
 
     try:
-        existing_activities = db.query(Activity).count()
-        if existing_activities > 0:
-            print("Database already seeded. Skipping...")
-            return
+        desired_orders = {a["order"] for a in ACTIVITIES_DATA}
 
-        activities_data = [
-            {
-                "order": 1,
-                "question": "Where should we go for our anniversary celebration?",
-                "options": [
-                    {"order": 1, "option_text": "Beach Town"},
-                    {"order": 2, "option_text": "Redwood Hike"},
-                    # {"order": 3, "option_text": "City weekend adventure"},
-                    # {"order": 4, "option_text": "Luxury spa resort"}
-                ]
-            },
-            {
-                "order": 2,
-                "question": "What type of dining experience should they enjoy?",
-                "options": [
-                    {"order": 1, "option_text": "Fine dining at a Michelin-star restaurant"},
-                    {"order": 2, "option_text": "Private chef cooking class"},
-                    {"order": 3, "option_text": "Romantic picnic under the stars"},
-                    {"order": 4, "option_text": "Food tour of local cuisine"}
-                ]
-            },
-            {
-                "order": 3,
-                "question": "What activity should be part of their celebration?",
-                "options": [
-                    {"order": 1, "option_text": "Couples massage and spa day"},
-                    {"order": 2, "option_text": "Hot air balloon ride"},
-                    {"order": 3, "option_text": "Wine tasting tour"},
-                    {"order": 4, "option_text": "Dance lessons"}
-                ]
-            },
-            {
-                "order": 4,
-                "question": "What entertainment would make the day special?",
-                "options": [
-                    {"order": 1, "option_text": "Live music concert or show"},
-                    {"order": 2, "option_text": "Private movie screening"},
-                    {"order": 3, "option_text": "Comedy club night"},
-                    {"order": 4, "option_text": "Sunset cruise"}
-                ]
-            },
-            {
-                "order": 5,
-                "question": "What keepsake should they create together?",
-                "options": [
-                    {"order": 1, "option_text": "Professional photo shoot"},
-                    {"order": 2, "option_text": "Pottery or art class creation"},
-                    {"order": 3, "option_text": "Custom jewelry making"},
-                    {"order": 4, "option_text": "Plant a tree together"}
-                ]
-            },
-            {
-                "order": 6,
-                "question": "How should they end the perfect anniversary day?",
-                "options": [
-                    {"order": 1, "option_text": "Stargazing with champagne"},
-                    {"order": 2, "option_text": "Bonfire on the beach"},
-                    {"order": 3, "option_text": "Rooftop dinner at sunset"},
-                    {"order": 4, "option_text": "Couples' dance under the stars"}
-                ]
-            }
-        ]
+        # Remove activities no longer in ACTIVITIES_DATA
+        for activity in db.query(Activity).all():
+            if activity.order not in desired_orders:
+                print(f"Removing activity order={activity.order}: '{activity.question}'")
+                db.delete(activity)
 
-        for activity_data in activities_data:
-            activity = Activity(
-                order=activity_data["order"],
-                question=activity_data["question"],
-                is_active=True
-            )
-            db.add(activity)
-            db.flush()
+        db.flush()
+
+        for activity_data in ACTIVITIES_DATA:
+            activity = db.query(Activity).filter_by(order=activity_data["order"]).first()
+
+            if activity is None:
+                # New activity — create it
+                activity = Activity(
+                    order=activity_data["order"],
+                    question=activity_data["question"],
+                    is_active=True
+                )
+                db.add(activity)
+                db.flush()
+                print(f"Added activity order={activity.order}: '{activity.question}'")
+            elif activity.question != activity_data["question"]:
+                # Question text changed — update it
+                print(f"Updating activity order={activity.order} question")
+                activity.question = activity_data["question"]
+
+            # Sync options for this activity
+            desired_option_orders = {o["order"] for o in activity_data["options"]}
+
+            # Remove options no longer defined
+            for option in list(activity.options):
+                if option.order not in desired_option_orders:
+                    print(f"  Removing option order={option.order}: '{option.option_text}'")
+                    db.delete(option)
 
             for option_data in activity_data["options"]:
-                option = ActivityOption(
-                    activity_id=activity.id,
-                    option_text=option_data["option_text"],
-                    order=option_data["order"]
+                option = next(
+                    (o for o in activity.options if o.order == option_data["order"]),
+                    None
                 )
-                db.add(option)
+                if option is None:
+                    option = ActivityOption(
+                        activity_id=activity.id,
+                        option_text=option_data["option_text"],
+                        order=option_data["order"]
+                    )
+                    db.add(option)
+                    print(f"  Added option order={option_data['order']}: '{option_data['option_text']}'")
+                elif option.option_text != option_data["option_text"]:
+                    print(f"  Updating option order={option.order} text")
+                    option.option_text = option_data["option_text"]
 
-        config = AppConfig(is_voting_closed=False, voting_end_time=None)
-        db.add(config)
+        # Ensure AppConfig exists
+        if db.query(AppConfig).count() == 0:
+            db.add(AppConfig(is_voting_closed=False, voting_end_time=None))
+            print("Created AppConfig")
 
         db.commit()
-        print("Database seeded successfully with 6 anniversary activities!")
+        print("Database sync complete.")
 
     except Exception as e:
-        print(f"Error seeding database: {e}")
+        print(f"Error during database sync: {e}")
         db.rollback()
+        raise
     finally:
         db.close()
 
 
 if __name__ == "__main__":
-    seed_database()
+    sync_database()
