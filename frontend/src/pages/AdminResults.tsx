@@ -126,8 +126,6 @@ export default function AdminResults() {
     return <div>No results available</div>;
   }
 
-  const maxVotes = Math.max(...currentResult.vote_counts.map(vc => vc.vote_count), 1);
-
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-4xl">
