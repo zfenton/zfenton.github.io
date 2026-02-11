@@ -8,7 +8,7 @@ load_dotenv()
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "sqlite:///./anniversary_app.db"
+    "sqlite:////tmp/anniversary_app.db"
 )
 
 engine = create_engine(
