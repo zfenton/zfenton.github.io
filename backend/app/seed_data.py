@@ -1,3 +1,7 @@
+# import sys
+# import os
+# sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from sqlalchemy.orm import Session
 from .database import SessionLocal, engine
 from .models import Base, Activity, ActivityOption, AppConfig
@@ -18,10 +22,10 @@ def seed_database():
                 "order": 1,
                 "question": "Where should we go for our anniversary celebration?",
                 "options": [
-                    {"order": 1, "option_text": "Romantic beach getaway"},
-                    {"order": 2, "option_text": "Mountain cabin retreat"},
-                    {"order": 3, "option_text": "City weekend adventure"},
-                    {"order": 4, "option_text": "Luxury spa resort"}
+                    {"order": 1, "option_text": "Beach Town"},
+                    {"order": 2, "option_text": "Redwood Hike"},
+                    # {"order": 3, "option_text": "City weekend adventure"},
+                    # {"order": 4, "option_text": "Luxury spa resort"}
                 ]
             },
             {
