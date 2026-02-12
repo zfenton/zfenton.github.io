@@ -15,12 +15,10 @@ ACTIVITIES_DATA = [
     },
     {
         "order": 2,
-        "question": "What type of dining experience should they enjoy?",
+        "question": "Where should we snack up for the drive?",
         "options": [
-            {"order": 1, "option_text": "Fine dining at a Michelin-star restaurant"},
-            {"order": 2, "option_text": "Private chef cooking class"},
-            {"order": 3, "option_text": "Romantic picnic under the stars"},
-            {"order": 4, "option_text": "Food tour of local cuisine"}
+            {"order": 1, "option_text": "Gas Station"},
+            {"order": 2, "option_text": "Grocery Store"},
         ]
     },
     {
