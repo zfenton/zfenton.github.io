@@ -8,7 +8,10 @@ from .seed_data import sync_database
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    sync_database()
+    try:
+        sync_database()
+    except Exception as e:
+        print(f"WARNING: Database sync failed on startup: {e}")
     yield
 
 
@@ -19,12 +22,14 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+# CORS must be added before routers are included
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://zfenton.github.io"],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 app.include_router(users.router)
