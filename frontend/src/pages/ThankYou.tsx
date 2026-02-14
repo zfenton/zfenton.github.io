@@ -93,11 +93,11 @@ export default function ThankYou() {
                 <Heart className="w-5 h-5" fill="currentColor" />
               </div>
               <p className="text-base text-gray-700">
-                Your participation will help create unforgettable memories for this special couple's 18th anniversary celebration!
+                Your votes will help create an unforgettable memory for our 18th anniversary celebration!
               </p>
               <div className="pt-4 border-t border-gray-200">
                 <p className="text-sm text-muted-foreground">
-                  Thank you for being part of their journey
+                  Thank you for being part of our journey
                 </p>
               </div>
             </motion.div>
