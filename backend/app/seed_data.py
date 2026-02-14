@@ -23,42 +23,35 @@ ACTIVITIES_DATA = [
     },
     {
         "order": 3,
-        "question": "What activity should be part of their celebration?",
+        "question": "Where should we get lunch?",
         "options": [
-            {"order": 1, "option_text": "Couples massage and spa day"},
-            {"order": 2, "option_text": "Hot air balloon ride"},
-            {"order": 3, "option_text": "Wine tasting tour"},
-            {"order": 4, "option_text": "Dance lessons"}
+            {"order": 1, "option_text": "Old Reliable"},
+            {"order": 2, "option_text": "Somewhere new"},
+
         ]
     },
     {
         "order": 4,
-        "question": "What entertainment would make the day special?",
+        "question": "What gift should we get eachother?",
         "options": [
-            {"order": 1, "option_text": "Live music concert or show"},
-            {"order": 2, "option_text": "Private movie screening"},
-            {"order": 3, "option_text": "Comedy club night"},
-            {"order": 4, "option_text": "Sunset cruise"}
+            {"order": 1, "option_text": "Something to wear"},
+            {"order": 2, "option_text": "Something to read"},
         ]
     },
     {
         "order": 5,
-        "question": "What keepsake should they create together?",
+        "question": "Now it's time for dinner; should we dress up or relax the style?",
         "options": [
-            {"order": 1, "option_text": "Professional photo shoot"},
-            {"order": 2, "option_text": "Pottery or art class creation"},
-            {"order": 3, "option_text": "Custom jewelry making"},
-            {"order": 4, "option_text": "Plant a tree together"}
+            {"order": 1, "option_text": "Dress Up"},
+            {"order": 2, "option_text": "Dress Down"},
         ]
     },
     {
         "order": 6,
-        "question": "How should they end the perfect anniversary day?",
+        "question": "How should we close out the night?",
         "options": [
-            {"order": 1, "option_text": "Stargazing with champagne"},
-            {"order": 2, "option_text": "Bonfire on the beach"},
-            {"order": 3, "option_text": "Rooftop dinner at sunset"},
-            {"order": 4, "option_text": "Couples' dance under the stars"}
+            {"order": 1, "option_text": "Fancy cocktails"},
+            {"order": 2, "option_text": "Beer and wings"},
         ]
     }
 ]
