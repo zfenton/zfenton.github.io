@@ -55,3 +55,17 @@ def get_all_results(db: Session = Depends(get_db)):
 def get_all_messages(db: Session = Depends(get_db)):
     messages = db.query(Message).order_by(Message.created_at.desc()).all()
     return messages
+
+
+@router.post("/reset")
+def reset_users_and_votes(db: Session = Depends(get_db)):
+    deleted_votes = db.query(Vote).delete()
+    deleted_messages = db.query(Message).delete()
+    deleted_users = db.query(User).delete()
+    db.commit()
+    return {
+        "message": "Reset complete. Activities and options preserved.",
+        "deleted_users": deleted_users,
+        "deleted_votes": deleted_votes,
+        "deleted_messages": deleted_messages,
+    }
