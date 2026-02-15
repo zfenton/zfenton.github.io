@@ -63,9 +63,10 @@ export default function Welcome() {
               <CardDescription className="text-base mt-2">
                 <p>
                   And what is the most important thing that happens at 18 years?
+                </p>
+                <p>
                   <span>You get to VOTE!!!</span>
                 </p>
-                
               </CardDescription>
             </div>
           </CardHeader>
