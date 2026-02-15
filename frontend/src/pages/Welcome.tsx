@@ -58,10 +58,14 @@ export default function Welcome() {
             </motion.div>
             <div>
               <CardTitle className="text-3xl font-bold celebration-gradient bg-clip-text text-transparent">
-                18 Years of Love!
+                Rachelle and Zach are celbrating 18 years of love!!!
               </CardTitle>
               <CardDescription className="text-base mt-2">
-                Help us celebrate this special milestone
+                <p>
+                  And what is the most important thing that happens at 18 years?
+                  <span>You get to VOTE!!!</span>
+                </p>
+                
               </CardDescription>
             </div>
           </CardHeader>
